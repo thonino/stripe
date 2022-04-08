@@ -13,7 +13,7 @@
 {# NavBar#}
 <nav class="navbar py-0 navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ path('app_home') }}">WAFORMATION</a>
+        <a class="navbar-brand fs-4" href="{{ path('app_home') }}">Stipe-symfony</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"data-bs-target="#navbarSupportedContent" 
                 aria-controls="navbarSupportedContent"aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -34,7 +34,7 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ path('app_admin') }}">Admin</a>
+                    <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Admin</a>
                 </li>
                                 </li>
                         <li class="nav-item">
