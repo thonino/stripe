@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Invoice;
+use App\Entity\Purchase;
 use App\Form\InvoiceType;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,10 +49,22 @@ class InvoiceController extends AbstractController
         }
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $invoice->setTotalPrice($total)
+                    ->setPaid(false)
+                    ->setStripeSuccessKey(uniqid());
             $entityManager->persist($invoice);
+            foreach($cart as $id =>$qty){
+                $product = $productRepo->find($id);
+                $purchase = new Purchase;
+                $purchase->setInvoice($invoice)
+                ->setProduct($product)
+                ->setUniPrice($product->getPrice())
+                ->setQuantity($qty);
+                $entityManager->persist($purchase);
+            }
             dd($invoice);
             $entityManager->flush();
-            return $this->redirectToRoute('app_invoice_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('tripe_checkout', ["invoice"=> $invoice->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('invoice/new.html.twig', [
