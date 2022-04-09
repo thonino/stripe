@@ -22,7 +22,7 @@
                 <img src="/img/{{product.image}}.jpg" class="card-img-top scroll" alt="...">
                     <h5 class="card-card txt fs-3 text-dark"></span>{{ product.price }}€ </span></h5>
                     <span class="d-flex justify-content-center mx-2 ">
-                    <a class="btn btn-warning fond mb-2 text-secondary" href="#">Ajouter au panier</a><br>
+                    <a class="btn btn-warning fond mb-2 text-secondary" href="{{ path('cart_add', {'product' : product.id})}}">Ajouter au panier</a><br>
                     <a class="btn btn-secondary mb-2  mx-2" href="{{ path('app_product_show', {'id': product.id}) }}">Voir</a>
                     </span>
                 
