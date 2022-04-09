@@ -32,10 +32,11 @@
         {% endfor %}
         </tbody>
     </table>
-    <a  class="fs-5 text-success rounded border border-success border-4 p-1 mx-2"
-        style="float:right;text-decoration:none;"
-        href="#" style="text-decoration:none;"> Valider Panier </a>
+        {% if cartProducts != [] %}
+            <a  class="fs-5 text-success rounded border border-success border-4 p-1 mx-2"
+                style="float:right;text-decoration:none;"href="{{ path('app_invoice_new')}}"> Valider Panier </a>
+        {% endif %}
     <p class="fs-4 border border-4 rounded px-2"style="float:right"> Total : 
-    <span class="text-warning fs-4"> {{ total}} € </span></p>
+    <span class="text-warning fs-4"> {{ total }} € </span></p>
 </div>
 {% endblock %}
