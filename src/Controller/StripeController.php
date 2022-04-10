@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -60,15 +61,26 @@ class StripeController extends AbstractController
         return $this->redirect($stripeSession->url, 303);
     }
     #[Route('/stripe/{invoice}/reussi/{stripeSuccessKey}', name: 'stripe_valid_payment')]
-    public function success(Invoice $invoice, string $stripeSuccessKey): Response
+    public function success(Invoice $invoice, string $stripeSuccessKey, SessionInterface $session, PurchaseRepository $purchaseRepo): Response
     {
-        dd($invoice);
-        return $this->render('stripe/success.html.twig');
+        if ($stripeSuccessKey != $invoice->getStripeSuccessKey()){
+                $this->redirectToRoute("stripe_cancel_payment", [
+                    'invoice'=> $invoice->getId(),
+        ]);
+        }
+        $invoice->setPaid(true);
+        $session->set('cart',  []);
+        $purchaseCriteria = ["invoice" => $invoice,];
+        $purchases = $purchaseRepo->findBy($purchaseCriteria);
+        return $this->render('stripe/success.html.twig', [
+            'invoice' => $invoice,
+            'purchases' => $purchases,
+        ]);
     }
     #[Route('/stripe/{invoice}/annulation', name: 'stripe_cancel_payment')]
     public function cancel(Invoice $invoice): Response
     {
         dd($invoice);
-        return $this->render('stripe/success.html.twig');
+        return $this->render('stripe/cancel.html.twig');
     }
 }
