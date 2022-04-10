@@ -62,9 +62,8 @@ class InvoiceController extends AbstractController
                 ->setQuantity($qty);
                 $entityManager->persist($purchase);
             }
-            dd($invoice);
             $entityManager->flush();
-            return $this->redirectToRoute('tripe_checkout', ["invoice"=> $invoice->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('stripe_checkout', ["invoice"=> $invoice->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('invoice/new.html.twig', [
