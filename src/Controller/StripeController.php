@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Controller;
-
 use Stripe\Stripe;
 use App\Entity\Invoice;
 use App\Repository\PurchaseRepository;
@@ -30,13 +29,12 @@ class StripeController extends AbstractController
                     "product_data"=> [
                         "name" => $purchase->getProduct()->getName(),
                     ],
-                    "unit_amount"=> 100*$purchase->getUniPrice(),
+                    "unit_amount"=> 100*$purchase->getUnitPrice(),
                 ],
                 "quantity"=>$purchase->getQuantity(),
             ];
             $lineItems[] = $item;
         }
-
         $successRoute = $this->generateUrl('stripe_valid_payment',[
             "_locale"=>$request->getLocale(),
             "invoice"=>$invoice->getId(),
@@ -55,7 +53,6 @@ class StripeController extends AbstractController
             'success_url' => $successRoute,
             'cancel_url' => $cancelRoute,
         ]);
-        
         $invoice ->setPiStripe($stripeSession->payment_intent);
         $em->flush($invoice);
         return $this->redirect($stripeSession->url, 303);
