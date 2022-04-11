@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Controller;
-
 use App\Entity\Invoice;
 use App\Entity\Purchase;
 use App\Form\InvoiceType;
@@ -17,12 +15,6 @@ class InvoiceController extends AbstractController
     #[Route('/invoice', name: 'app_invoice')]
     public function index(): Response
     {
-        // compte stripe
-        // récupération données de livraison
-        // créer les données deans la data base
-        // faire payer
-        // vider le panier et remercier
-
         return $this->render('invoice/index.html.twig', [
             'controller_name' => 'InvoiceController',
         ]);
@@ -58,7 +50,7 @@ class InvoiceController extends AbstractController
                 $purchase = new Purchase;
                 $purchase->setInvoice($invoice)
                 ->setProduct($product)
-                ->setUniPrice($product->getPrice())
+                ->setUnitPrice($product->getPrice())
                 ->setQuantity($qty);
                 $entityManager->persist($purchase);
             }

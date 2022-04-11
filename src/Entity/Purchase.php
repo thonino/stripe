@@ -22,7 +22,7 @@ class Purchase
     private $invoice;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $uniPrice;
+    private $unitPrice;
 
     #[ORM\Column(type: 'integer')]
     private $quantity;
@@ -56,14 +56,14 @@ class Purchase
         return $this;
     }
 
-    public function getUniPrice(): ?string
+    public function getUnitPrice(): ?string
     {
-        return $this->uniPrice;
+        return $this->unitPrice;
     }
 
-    public function setUniPrice(string $uniPrice): self
+    public function setUnitPrice(string $unitPrice): self
     {
-        $this->uniPrice = $uniPrice;
+        $this->unitPrice = $unitPrice;
 
         return $this;
     }
